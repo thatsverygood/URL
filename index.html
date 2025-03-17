@@ -15,17 +15,17 @@
             const targetUrl = "https://shop.beacons.ai/monetizewithai/9dcc5e41-4d53-45e4-9217-529bebb44b0f";
             
             if (isInstagramBrowser()) {
-                // For Android, try to open in Chrome using intent
+                // For Android, use the Chrome intent with a timeout
                 if (/Android/.test(navigator.userAgent)) {
                     setTimeout(function() {
                         window.location.href = `intent://${targetUrl}#Intent;scheme=https;package=com.android.chrome;end`;
-                    }, 1000); // Add a small delay to ensure the intent fires correctly
+                    }, 1000);
                 } 
-                // For iOS, use a delayed redirect
+                // For iOS, attempt a delayed redirect to ensure Instagram doesn't block
                 else if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
                     setTimeout(function() {
                         window.location.href = targetUrl;
-                    }, 2000); // Slightly longer delay for iOS devices
+                    }, 2000);
                 }
             } else {
                 window.location.href = targetUrl;
@@ -38,8 +38,10 @@
             e.returnValue = '';
         });
 
-        // Ensure redirection attempts right after page load
-        redirectToExternal();
+        // Initialize the redirect when the page is loaded
+        window.onload = function() {
+            redirectToExternal();
+        };
     </script>
 </body>
 </html>
