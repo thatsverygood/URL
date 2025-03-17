@@ -5,6 +5,11 @@
   <title>Redirecting...</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <style>
+    body {
+      transition: background-color 0.5s ease;
+    }
+  </style>
 </head>
 <body>
   <script type="text/javascript">
@@ -41,11 +46,14 @@
       e.returnValue = '';
     });
 
-    // Trigger redirect on page load.
     window.onload = function() {
       redirectChain();
     };
   </script>
-  <p>If you are not redirected automatically, <a href="#" onclick="redirectChain(); return false;">click here</a>.</p>
+  <p>If you are not redirected automatically, 
+    <a href="#" onclick="document.body.style.backgroundColor='#FFCC00'; redirectChain(); return false;">
+      click here
+    </a>.
+  </p>
 </body>
 </html>
