@@ -3,29 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redirecting...</title>
-
-    <!-- Meta Refresh for standard redirect -->
-    <meta http-equiv="refresh" content="0; url=https://shop.beacons.ai/monetizewithai/9dcc5e41-4d53-45e4-9217-529bebb44b0f">
-
-    <!-- JavaScript for Redirection (both Android and iOS) -->
-    <script type="text/javascript">
-        // For iOS Devices (Safari redirection)
-        if (navigator.userAgent.match(/iPhone|iPad|iPod/)) {
-            setTimeout(function() {
-                window.location.href = "x-web-search://https://shop.beacons.ai/monetizewithai/9dcc5e41-4d53-45e4-9217-529bebb44b0f";
-            }, 100);
+    <title>Open in External Browser</title>
+    <script>
+        function isInstagramInAppBrowser() {
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            return userAgent.includes("Instagram");
         }
-        
-        // For Android Devices (Intent scheme to open the link in default browser)
-        else if (navigator.userAgent.match(/Android/)) {
-            setTimeout(function() {
-                window.location.href = "intent://shop.beacons.ai/monetizewithai/9dcc5e41-4d53-45e4-9217-529bebb44b0f#Intent;scheme=https;package=com.android.browser;end";
-            }, 100);
+
+        function redirectToExternal(url) {
+            if (isInstagramInAppBrowser()) {
+                document.getElementById('instagram-message').style.display = 'block';
+                window.open(url, '_blank');
+            } else {
+                window.location.href = url;
+            }
         }
+
+        window.onload = function() {
+            setTimeout(function() {
+                redirectToExternal('https://shop.beacons.ai/monetizewithai/9dcc5e41-4d53-45e4-9217-529bebb44b0f');
+            }, 3000);
+        };
     </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        .message {
+            display: none;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px auto;
+            max-width: 600px;
+        }
+        button {
+            background: #3897f0;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
-    <p>If you are not redirected automatically, follow this <a href="https://shop.beacons.ai/monetizewithai/9dcc5e41-4d53-45e4-9217-529bebb44b0f">link</a>.</p>
+    <div id="instagram-message" class="message">
+        <h2>Please Open in Browser</h2>
+        <p>To view this content properly, please open it in your web browser:</p>
+        <button onclick="redirectToExternal('https://shop.beacons.ai/monetizewithai/9dcc5e41-4d53-45e4-9217-529bebb44b0f')">
+            Open in Browser
+        </button>
+        <p>Or copy and paste this URL in your browser:<br>
+        <code id="url-display">https://shop.beacons.ai/monetizewithai/9dcc5e41-4d53-45e4-9217-529bebb44b0f</code></p>
+    </div>
+
+    <noscript>
+        <meta http-equiv="refresh" content="0; url=https://shop.beacons.ai/monetizewithai/9dcc5e41-4d53-45e4-9217-529bebb44b0f">
+    </noscript>
 </body>
 </html>
