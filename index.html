@@ -1,21 +1,89 @@
-const express = require("express");
-const app = express();
-
-app.get("/redirect", (req, res) => {
-    const userAgent = req.headers["user-agent"] || "";
-    const targetUrl = "https://shop.beacons.ai/monetizewithai/9dcc5e41-4d53-45e4-9217-529bebb44b0f";
-    
-    if (userAgent.includes("Instagram")) {
-        if (/Android/.test(userAgent)) {
-            res.redirect(`intent://${targetUrl}#Intent;scheme=https;package=com.android.chrome;end`);
-        } else if (/iPhone|iPad|iPod/.test(userAgent)) {
-            res.redirect(targetUrl);
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Redirecting...</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        function isInstagramBrowser() {
+            return /Instagram/.test(navigator.userAgent);
         }
-    } else {
-        res.redirect(targetUrl);
-    }
-});
 
-app.listen(3000, () => {
-    console.log("Server running on port 3000");
-});
+        function redirectToExternal() {
+            const targetUrl = "https://shop.beacons.ai/monetizewithai/9dcc5e41-4d53-45e4-9217-529bebb44b0f";
+            
+            if (isInstagramBrowser()) {
+                // First try standard window.open
+                const newWindow = window.open(targetUrl, '_blank');
+                
+                // If blocked, show manual instructions
+                if (!newWindow || newWindow.closed) {
+                    document.getElementById('manualRedirect').style.display = 'block';
+                }
+            } else {
+                window.location.href = targetUrl;
+            }
+        }
+
+        // Initialize when page loads
+        window.onload = function() {
+            redirectToExternal();
+        };
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        #manualRedirect {
+            display: none;
+            margin-top: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .open-button {
+            background: #3897f0;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            display: inline-block;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        .url-box {
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            margin: 15px 0;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body>
+    <p>Redirecting to store...</p>
+
+    <div id="manualRedirect">
+        <h3>⚠️ Please Open in Browser</h3>
+        <p>Tap the button below to open in your browser:</p>
+        <a href="https://shop.beacons.ai/monetizewithai/9dcc5e41-4d53-45e4-9217-529bebb44b0f" 
+           class="open-button"
+           target="_blank"
+           onclick="redirectToExternal()">
+            Open in Browser Now
+        </a>
+        
+        <p>Or copy this link and paste in your browser:</p>
+        <div class="url-box">
+            https://shop.beacons.ai/monetizewithai/9dcc5e41-4d53-45e4-9217-529bebb44b0f
+        </div>
+        
+        <p>If nothing works:<br>
+        1. Tap the 3-dot menu (⋮)<br>
+        2. Select "Open in browser"</p>
+    </div>
+</body>
+</html>
