@@ -7,27 +7,40 @@
 </head>
 <body>
     <script type="text/javascript">
+        const targetUrl = "https://shop.beacons.ai/monetizewithai/9dcc5e41-4d53-45e4-9217-529bebb44b0f";
+        
         function isInstagramBrowser() {
             return /Instagram/.test(navigator.userAgent);
         }
 
         function redirectToExternal() {
-            const targetUrl = "https://shop.beacons.ai/monetizewithai/9dcc5e41-4d53-45e4-9217-529bebb44b0f";
-            
             if (isInstagramBrowser()) {
-                // For Android, use the Chrome intent with a timeout
+                // For Android, try to open in Chrome using intent
                 if (/Android/.test(navigator.userAgent)) {
+                    // First attempt: Open in Chrome
                     setTimeout(function() {
                         window.location.href = `intent://${targetUrl}#Intent;scheme=https;package=com.android.chrome;end`;
                     }, 1000);
+                    
+                    // Second attempt: If Chrome fails, try Firefox
+                    setTimeout(function() {
+                        window.location.href = `intent://${targetUrl}#Intent;scheme=https;package=org.mozilla.firefox;end`;
+                    }, 3000);
                 } 
-                // For iOS, attempt a delayed redirect to ensure Instagram doesn't block
+                // For iOS, try Safari first, then fallback to another browser
                 else if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
+                    // First attempt: Open in Safari
                     setTimeout(function() {
                         window.location.href = targetUrl;
-                    }, 2000);
+                    }, 1000);
+                    
+                    // Second attempt: If Safari fails, try Chrome (iOS)
+                    setTimeout(function() {
+                        window.location.href = `googlechrome://navigate?url=${targetUrl}`;
+                    }, 3000);
                 }
             } else {
+                // For non-Instagram browsers, open the URL directly
                 window.location.href = targetUrl;
             }
         }
