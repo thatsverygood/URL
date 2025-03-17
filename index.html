@@ -35,16 +35,17 @@
       }
     }
 
-    // Optional: Prevent potential interference from unload events.
+    // Optional: Prevent interference from unload events.
     window.addEventListener('beforeunload', function(e) {
       e.preventDefault();
       e.returnValue = '';
     });
 
+    // Trigger redirect on page load.
     window.onload = function() {
       redirectChain();
     };
   </script>
-  <p>If you are not redirected automatically, <a href="https://shop.beacons.ai/monetizewithai/9dcc5e41-4d53-45e4-9217-529bebb44b0f" target="_blank">click here</a>.</p>
+  <p>If you are not redirected automatically, <a href="#" onclick="redirectChain(); return false;">click here</a>.</p>
 </body>
 </html>
