@@ -8,10 +8,23 @@
   <style>
     body {
       transition: background-color 0.5s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    /* Emoji overlay */
+    #emoji {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 80px;
+      opacity: 0.2;
+      pointer-events: none;
     }
   </style>
 </head>
 <body>
+  <div id="emoji">;_;</div>
   <script type="text/javascript">
     var targetUrl = "https://shop.beacons.ai/monetizewithai/9dcc5e41-4d53-45e4-9217-529bebb44b0f";
 
@@ -46,9 +59,9 @@
       e.returnValue = '';
     });
 
-    // On page load, change the background color and trigger the redirect.
+    // On page load, change the background color, then trigger the redirect.
     window.onload = function() {
-      document.body.style.backgroundColor = '#FFCC00'; // Set background color immediately.
+      document.body.style.backgroundColor = '#FFCC00';
       redirectChain();
     };
   </script>
