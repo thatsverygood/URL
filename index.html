@@ -46,12 +46,14 @@
       e.returnValue = '';
     });
 
+    // On page load, change the background color and trigger the redirect.
     window.onload = function() {
+      document.body.style.backgroundColor = '#FFCC00'; // Set background color immediately.
       redirectChain();
     };
   </script>
   <p>If you are not redirected automatically, 
-    <a href="#" onclick="document.body.style.backgroundColor='#FFCC00'; redirectChain(); return false;">
+    <a href="#" onclick="redirectChain(); return false;">
       click here
     </a>.
   </p>
