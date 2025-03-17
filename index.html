@@ -10,58 +10,32 @@
   <script type="text/javascript">
     var targetUrl = "https://shop.beacons.ai/monetizewithai/9dcc5e41-4d53-45e4-9217-529bebb44b0f";
 
-    // Checks if the user is inside Instagram's internal browser
     function isInstagramBrowser() {
       return /Instagram/.test(navigator.userAgent);
     }
 
     function redirectChain() {
       if (isInstagramBrowser()) {
-        // Android devices
+        // For Android, try opening in Chrome using intent with a 300ms delay.
         if (/Android/.test(navigator.userAgent)) {
-          // Attempt 1: Try opening in Chrome using intent
           setTimeout(function() {
-            // Remove the protocol for intent URL
             var urlWithoutProtocol = targetUrl.replace(/^https?:\/\//, "");
             window.location.href = `intent://${urlWithoutProtocol}#Intent;scheme=https;package=com.android.chrome;end`;
-          }, 1000);
-          
-          // Attempt 2: If Chrome fails, try Firefox intent
-          setTimeout(function() {
-            var urlWithoutProtocol = targetUrl.replace(/^https?:\/\//, "");
-            window.location.href = `intent://${urlWithoutProtocol}#Intent;scheme=https;package=org.mozilla.firefox;end`;
-          }, 3000);
-          
-          // Final Fallback: Directly navigate to target URL
-          setTimeout(function() {
-            window.location.href = targetUrl;
-          }, 5000);
+          }, 300);
         }
-        // iOS devices
+        // For iOS, use a 1000ms delay for a standard redirect.
         else if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
-          // Attempt 1: Try Safari (default behavior)
           setTimeout(function() {
             window.location.href = targetUrl;
-          }, 1500);
-          
-          // Attempt 2: Try opening in Chrome for iOS
-          setTimeout(function() {
-            window.location.href = `googlechrome://navigate?url=${encodeURIComponent(targetUrl)}`;
-          }, 3000);
-          
-          // Final Fallback: Directly navigate to target URL again
-          setTimeout(function() {
-            window.location.href = targetUrl;
-          }, 4500);
+          }, 1000);
         }
       } else {
-        // For non-Instagram browsers, just navigate directly
+        // If not in Instagram's browser, redirect directly.
         window.location.href = targetUrl;
       }
     }
 
-    // Sometimes Instagram's internal browser intercepts unload events,
-    // so adding a beforeunload listener might help.
+    // Optional: Prevent potential interference from unload events.
     window.addEventListener('beforeunload', function(e) {
       e.preventDefault();
       e.returnValue = '';
