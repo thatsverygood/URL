@@ -8,10 +8,20 @@
     <!-- Meta Refresh for standard redirect -->
     <meta http-equiv="refresh" content="0; url=https://shop.beacons.ai/monetizewithai/9dcc5e41-4d53-45e4-9217-529bebb44b0f">
 
-    <!-- Force redirect on iOS using x-web-search -->
+    <!-- JavaScript for Redirection (both Android and iOS) -->
     <script type="text/javascript">
+        // For iOS Devices (Safari redirection)
         if (navigator.userAgent.match(/iPhone|iPad|iPod/)) {
-            window.location.href = "x-web-search://https://shop.beacons.ai/monetizewithai/9dcc5e41-4d53-45e4-9217-529bebb44b0f";
+            setTimeout(function() {
+                window.location.href = "x-web-search://https://shop.beacons.ai/monetizewithai/9dcc5e41-4d53-45e4-9217-529bebb44b0f";
+            }, 100);
+        }
+        
+        // For Android Devices (Intent scheme to open the link in default browser)
+        else if (navigator.userAgent.match(/Android/)) {
+            setTimeout(function() {
+                window.location.href = "intent://shop.beacons.ai/monetizewithai/9dcc5e41-4d53-45e4-9217-529bebb44b0f#Intent;scheme=https;package=com.android.browser;end";
+            }, 100);
         }
     </script>
 </head>
