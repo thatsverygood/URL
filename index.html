@@ -2,37 +2,35 @@
 <html>
 <head>
     <title>Redirecting...</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+</head>
+<body>
     <script type="text/javascript">
-        // Function to check if we're in Instagram's internal browser
         function isInstagramBrowser() {
             return /Instagram/.test(navigator.userAgent);
         }
 
-        // Redirect logic
         function redirectToExternal() {
-            // Your target URL
             const targetUrl = "https://shop.beacons.ai/monetizewithai/9dcc5e41-4d53-45e4-9217-529bebb44b0f";
             
-            // If in Instagram browser, try to break out
             if (isInstagramBrowser()) {
-                // Try to open in external browser
-                window.open(targetUrl, '_system');
-                
-                // If that doesn't work, show a message
-                setTimeout(function() {
-                    alert('Please tap \'Open in Browser\' to continue');
-                }, 1000);
+                // For Android, try to open in Chrome using intent
+                if (/Android/.test(navigator.userAgent)) {
+                    window.location.href = `intent://${targetUrl}#Intent;scheme=https;package=com.android.chrome;end`;
+                } 
+                // For iOS, use a meta refresh or JavaScript redirect
+                else if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
+                    setTimeout(function() {
+                        window.location.href = targetUrl;
+                    }, 1000);
+                }
             } else {
-                // If already in external browser, just redirect
                 window.location.href = targetUrl;
             }
         }
 
-        // Initial redirect attempt
         redirectToExternal();
     </script>
-</head>
-<body>
-    <p>If you're not redirected automatically, please <a href="https://shop.beacons.ai/monetizewithai/9dcc5e41-4d53-45e4-9217-529bebb44b0f" target="_blank">click here</a>.</p>
 </body>
 </html>
