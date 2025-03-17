@@ -23,12 +23,18 @@
                 else if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
                     setTimeout(function() {
                         window.location.href = targetUrl;
-                    }, 1000);
+                    }, 1500);
                 }
             } else {
                 window.location.href = targetUrl;
             }
         }
+
+        // Add event listener for beforeunload to handle Instagram's verification
+        window.addEventListener('beforeunload', function(e) {
+            e.preventDefault();
+            e.returnValue = '';
+        });
 
         redirectToExternal();
     </script>
