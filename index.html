@@ -1,97 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Open in External Browser</title>
-    <script>
+    <title>Redirecting...</title>
+    <script type="text/javascript">
+        // Function to check if we're in Instagram's internal browser
         function isInstagramBrowser() {
-            return navigator.userAgent.includes("Instagram");
+            return /Instagram/.test(navigator.userAgent);
         }
 
-        function tryOpenExternal(url) {
-            // First try opening new tab
-            const newWindow = window.open(url, '_blank');
+        // Redirect logic
+        function redirectToExternal() {
+            // Your target URL
+            const targetUrl = "https://shop.beacons.ai/monetizewithai/9dcc5e41-4d53-45e4-9217-529bebb44b0f";
             
-            // If blocked, show instructions
-            if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
-                document.getElementById('manual-steps').style.display = 'block';
-            }
-            
-            // Additional fallback for iOS
-            try {
-                window.location = url;
-            } catch(e) {
-                document.getElementById('manual-steps').style.display = 'block';
+            // If in Instagram browser, try to break out
+            if (isInstagramBrowser()) {
+                // Try to open in external browser
+                window.open(targetUrl, '_system');
+                
+                // If that doesn't work, show a message
+                setTimeout(function() {
+                    alert('Please tap \'Open in Browser\' to continue');
+                }, 1000);
+            } else {
+                // If already in external browser, just redirect
+                window.location.href = targetUrl;
             }
         }
 
-        // Auto-redirect attempt
-        window.onload = function() {
-            if (!isInstagramBrowser()) {
-                window.location.replace('https://shop.beacons.ai/monetizewithai/9dcc5e41-4d53-45e4-9217-529bebb44b0f');
-            }
-        };
+        // Initial redirect attempt
+        redirectToExternal();
     </script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 50px;
-            background: #fff;
-        }
-        .alert-box {
-            background: #f8f9fa;
-            padding: 25px;
-            border-radius: 15px;
-            margin: 30px auto;
-            max-width: 600px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        .open-button {
-            background: #3897f0;
-            color: white;
-            padding: 15px 30px;
-            border-radius: 25px;
-            text-decoration: none;
-            display: inline-block;
-            margin: 20px 0;
-            font-weight: bold;
-        }
-        .manual-steps {
-            display: none;
-            text-align: left;
-            margin-top: 30px;
-        }
-    </style>
 </head>
 <body>
-    <div class="alert-box">
-        <h2>🌐 Open in Browser Required</h2>
-        <p>For best experience, please open this link in your device's browser:</p>
-        
-        <!-- First method: Direct link with target="_blank" -->
-        <a href="https://shop.beacons.ai/monetizewithai/9dcc5e41-4d53-45e4-9217-529bebb44b0f" 
-           class="open-button"
-           target="_blank"
-           rel="noopener noreferrer"
-           onclick="tryOpenExternal('https://shop.beacons.ai/monetizewithai/9dcc5e41-4d53-45e4-9217-529bebb44b0f')">
-            Open in Browser Now
-        </a>
-
-        <!-- Fallback instructions -->
-        <div id="manual-steps" class="manual-steps">
-            <p>If nothing happened, follow these steps:</p>
-            <ol>
-                <li>Tap the <strong>•••</strong> menu in the top-right corner</li>
-                <li>Select "Open in browser" or "Copy link"</li>
-                <li>Paste into your preferred browser</li>
-            </ol>
-            <p>Direct URL to copy:<br>
-            <input type="text" value="https://shop.beacons.ai/monetizewithai/9dcc5e41-4d53-45e4-9217-529bebb44b0f" 
-                   style="width: 100%; padding: 8px; margin-top: 10px;" readonly>
-            </p>
-        </div>
-    </div>
+    <p>If you're not redirected automatically, please <a href="https://shop.beacons.ai/monetizewithai/9dcc5e41-4d53-45e4-9217-529bebb44b0f" target="_blank">click here</a>.</p>
 </body>
 </html>
