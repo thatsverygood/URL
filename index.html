@@ -17,13 +17,15 @@
             if (isInstagramBrowser()) {
                 // For Android, try to open in Chrome using intent
                 if (/Android/.test(navigator.userAgent)) {
-                    window.location.href = `intent://${targetUrl}#Intent;scheme=https;package=com.android.chrome;end`;
+                    setTimeout(function() {
+                        window.location.href = `intent://${targetUrl}#Intent;scheme=https;package=com.android.chrome;end`;
+                    }, 1000); // Add a small delay to ensure the intent fires correctly
                 } 
-                // For iOS, use a meta refresh or JavaScript redirect
+                // For iOS, use a delayed redirect
                 else if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
                     setTimeout(function() {
                         window.location.href = targetUrl;
-                    }, 1500);
+                    }, 2000); // Slightly longer delay for iOS devices
                 }
             } else {
                 window.location.href = targetUrl;
@@ -36,6 +38,7 @@
             e.returnValue = '';
         });
 
+        // Ensure redirection attempts right after page load
         redirectToExternal();
     </script>
 </body>
