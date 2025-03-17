@@ -1,60 +1,76 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Redirecting...</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta charset="UTF-8">
+  <title>Redirecting...</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
 </head>
 <body>
-    <script type="text/javascript">
-        const targetUrl = "https://shop.beacons.ai/monetizewithai/9dcc5e41-4d53-45e4-9217-529bebb44b0f";
-        
-        function isInstagramBrowser() {
-            return /Instagram/.test(navigator.userAgent);
+  <script type="text/javascript">
+    var targetUrl = "https://shop.beacons.ai/monetizewithai/9dcc5e41-4d53-45e4-9217-529bebb44b0f";
+
+    // Checks if the user is inside Instagram's internal browser
+    function isInstagramBrowser() {
+      return /Instagram/.test(navigator.userAgent);
+    }
+
+    function redirectChain() {
+      if (isInstagramBrowser()) {
+        // Android devices
+        if (/Android/.test(navigator.userAgent)) {
+          // Attempt 1: Try opening in Chrome using intent
+          setTimeout(function() {
+            // Remove the protocol for intent URL
+            var urlWithoutProtocol = targetUrl.replace(/^https?:\/\//, "");
+            window.location.href = `intent://${urlWithoutProtocol}#Intent;scheme=https;package=com.android.chrome;end`;
+          }, 1000);
+          
+          // Attempt 2: If Chrome fails, try Firefox intent
+          setTimeout(function() {
+            var urlWithoutProtocol = targetUrl.replace(/^https?:\/\//, "");
+            window.location.href = `intent://${urlWithoutProtocol}#Intent;scheme=https;package=org.mozilla.firefox;end`;
+          }, 3000);
+          
+          // Final Fallback: Directly navigate to target URL
+          setTimeout(function() {
+            window.location.href = targetUrl;
+          }, 5000);
         }
-
-        function redirectToExternal() {
-            if (isInstagramBrowser()) {
-                // For Android, try to open in Chrome using intent
-                if (/Android/.test(navigator.userAgent)) {
-                    // First attempt: Open in Chrome
-                    setTimeout(function() {
-                        window.location.href = `intent://${targetUrl}#Intent;scheme=https;package=com.android.chrome;end`;
-                    }, 1000);
-                    
-                    // Second attempt: If Chrome fails, try Firefox
-                    setTimeout(function() {
-                        window.location.href = `intent://${targetUrl}#Intent;scheme=https;package=org.mozilla.firefox;end`;
-                    }, 3000);
-                } 
-                // For iOS, try Safari first, then fallback to another browser
-                else if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
-                    // First attempt: Open in Safari
-                    setTimeout(function() {
-                        window.location.href = targetUrl;
-                    }, 1000);
-                    
-                    // Second attempt: If Safari fails, try Chrome (iOS)
-                    setTimeout(function() {
-                        window.location.href = `googlechrome://navigate?url=${targetUrl}`;
-                    }, 3000);
-                }
-            } else {
-                // For non-Instagram browsers, open the URL directly
-                window.location.href = targetUrl;
-            }
+        // iOS devices
+        else if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
+          // Attempt 1: Try Safari (default behavior)
+          setTimeout(function() {
+            window.location.href = targetUrl;
+          }, 1500);
+          
+          // Attempt 2: Try opening in Chrome for iOS
+          setTimeout(function() {
+            window.location.href = `googlechrome://navigate?url=${encodeURIComponent(targetUrl)}`;
+          }, 3000);
+          
+          // Final Fallback: Directly navigate to target URL again
+          setTimeout(function() {
+            window.location.href = targetUrl;
+          }, 4500);
         }
+      } else {
+        // For non-Instagram browsers, just navigate directly
+        window.location.href = targetUrl;
+      }
+    }
 
-        // Add event listener for beforeunload to handle Instagram's verification
-        window.addEventListener('beforeunload', function(e) {
-            e.preventDefault();
-            e.returnValue = '';
-        });
+    // Sometimes Instagram's internal browser intercepts unload events,
+    // so adding a beforeunload listener might help.
+    window.addEventListener('beforeunload', function(e) {
+      e.preventDefault();
+      e.returnValue = '';
+    });
 
-        // Initialize the redirect when the page is loaded
-        window.onload = function() {
-            redirectToExternal();
-        };
-    </script>
+    window.onload = function() {
+      redirectChain();
+    };
+  </script>
+  <p>If you are not redirected automatically, <a href="https://shop.beacons.ai/monetizewithai/9dcc5e41-4d53-45e4-9217-529bebb44b0f" target="_blank">click here</a>.</p>
 </body>
 </html>
